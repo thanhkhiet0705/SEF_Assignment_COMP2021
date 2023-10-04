@@ -1,4 +1,4 @@
-# ASSEMENT_REQUIREMENTS
+# ASSESSMENT_REQUIREMENTS
 ________________________________________________________________________________________________________________________________________________________________
 GROUP 17 - MEMBERS: Omar El-Hamoui, Khiet Huynh, Cecilia Press
 ________________________________________________________________________________________________________________________________________________________________
@@ -26,8 +26,13 @@ ________________________________________________________________________________
 What needs to be done:
 Essentially, our job is to make a a functional web application with a database. The following below are specific requirements. 
 1) Framework + Design + Web application basics: Due 9/10/23. If Omar has not been able to reach us by 7/10/23, swap the group tasks between Khiet and Omar.
+- Work on Design and Framework during design phase.
 2) Django + Python + Javascript: Due 13/10/23
+- Work with identifying the requirements relevent for Django etc during design phase.
 3) Database: Due 13/10/23
+- Work on database design throughout the design phase then work on database development after design phase.
+
+Flow: Website Design + Framework > Web Application HTML + CSS > Django + Python + Javascript > Database
 ________________________________________________________________________________________________________________________________________________________________
 
 GROUP WORK DIVISION:
