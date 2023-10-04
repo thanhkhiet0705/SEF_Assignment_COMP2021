@@ -1,0 +1,42 @@
+# ASSEMENT_REQUIREMENTS
+________________________________________________________________________________________________________________________________________________________________
+GROUP 17 - MEMBERS: Omar El-Hamoui, Khiet Huynh, Cecilia Press
+________________________________________________________________________________________________________________________________________________________________
+
+REQUIREMENTS: 
+From Assessment Specifications:
+- Use Django web framework to develop application
+- Implement a relational database to store pet and user data
+- Utilise HTML, CSS, JavaScript, and Python for frontend and backend development.
+- Follow best practices for code organisation, documentation, and version control.
+- a requirements.txt file for the marker to recreate the development environtment inside should be:
+
+~ Group members list: 
+list members name and student ID
+
+~ Breif Installation and setup instructions: 
+detail relevent instructions the marker needs to set up the Django project for marking
+
+~ User Guide:
+URL for landing page
+list main web ppages and their purpose
+a table of user credentials and their associated roles. Ensure that the passwords are indicated in plain text. All users created in database must be included in this table.
+________________________________________________________________________________________________________________________________________________________________
+
+What needs to be done:
+Essentially, our job is to make a a functional web application with a database. The following below are specific requirements. 
+1) Framework + Design + Web application basics: Due 9/10/23. If Omar has not been able to reach us by 7/10/23, swap the group tasks between Khiet and Omar.
+2) Django + Python + Javascript: Due 13/10/23
+3) Database: Due 13/10/23
+________________________________________________________________________________________________________________________________________________________________
+
+GROUP WORK DIVISION:
+Omar:
+- Framework + Design + Web application basics
+Khiet:
+- Django + Python + Javascript
+Cecilia:
+- Database
+________________________________________________________________________________________________________________________________________________________________
+
+PLEASE COMPLETE BY 13/10/2023 AND REVIEW ON 14/10/2023
