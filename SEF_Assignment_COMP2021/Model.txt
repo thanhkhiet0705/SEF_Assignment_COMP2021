@@ -1,0 +1,28 @@
+class User (models.Model):
+    user_ID = models.AutoField(verbose_name="ID", max_length=8, primary_key=True)
+    is_admin = models.BooleanField
+    is_superuser = models.BooleanField
+    user_name = models.CharField(verbose_name="username", max_length=255)
+    user_email = models.EmailField(verbose_name="email", unique=True, primary_key=True)
+    phone_number = models.IntegerField(verbose_name="phone_number", max_length=14)
+    fisrt_name = models.CharField(verbose_name="first_name", max_length=255)
+    last_name = models.CharField(verbose_name="last_name", max_length=255)
+    address = models.CharField(verbose_name="address",max_length=255)
+    suburb = models.CharField(verbose_name="suburb", max_length=255)
+    postcode = models.CharField(verbose_name="postcode", max_length=10)
+    DOB = models.DateField(verbose_name="date_of_birth")
+    joined_date = models.DateField(verbose_name="joined_date")
+
+class Pet (models.Model):
+    pet_name = models.CharField(verbose_name="name", max_length=255)
+    sex = models.CharField(verbose_name="sex", max_length=10)
+    species = models.CharField(verbose_name="species", max_length=255)
+    breed = models.CharField(verbose_name="breed", max_length=255)
+    health = models.TextField(verbose_name="health_condition")
+    location = models.CharField(verbose_name="current_located")
+    image = models.ImageField()
+
+class Application (models.Model):
+    application_ID = models.AutoField(verbose_name="application_ID", primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    adopted_pet = models.ForeignKey(Pet, on_delete=models.CASCADE)

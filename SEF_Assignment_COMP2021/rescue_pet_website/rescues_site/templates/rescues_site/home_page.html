@@ -1,0 +1,14 @@
+{% extends "./master.html" %}
+
+{% block title %}
+<title>Pet Rescuer - Home Page</title>
+{% endblock %}
+
+{% block content %}
+    <h1>Home Page</h1>
+    {% for pet in pets%}
+        <h2> {{ pet.name }} </h2>
+        <p><strong>Species: </strong>{{ pet.species }}</p>
+        <p><strong>Sex: </strong>{{ pet.sex }}</p>
+    {% endfor %}
+{% endblock %}

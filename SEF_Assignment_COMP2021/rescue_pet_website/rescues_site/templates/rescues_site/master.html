@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'stylesheet.css' %}">
+        {% block title %}
+            {% if title %}
+                <title> Pet Rescuer - {{ title }}</title>
+            {% else %}
+                <title> Pet Rescuer </title>
+            {% endif %}
+        {% endblock %}
+    </head>
+
+    <body>
+        <nav class="nav_bar">
+            <a href="about_us/">About Us</a>
+            <a href="service/">Service</a>
+        </nav>
+
+        <div class="container">
+            {% block content %}{% endblock%}
+        </div>
+
+        <footer>
+            <div id="connect_container">
+                <h4>Information</h4>
+                <a href="">Terms and Conditions</a><br>
+                <a href="">Policy</a><br>
+                <a href="">Contact Us</a><br>
+                <a href="">Sitemap</a>
+
+                <h4>Connect with Us</h4>
+                <a href="">Facebook</a><br>
+                <a href="">Instagram</a><br>
+                <a href="">Twitter</a>
+            </div>
+
+            <div id="our_promises_container">
+                <h4>Our promise to You</h4>
+                <p>Bla bla bla bla...</p>
+            </div>
+
+            <div id="advertise_container">
+                <img src="" alt="Some advertise..">
+            </div>
+
+            <div id="eNew_container">
+                <h4>eNewsletter</h4>
+                <form action="get">
+                    <input type="email">
+                    <button>Submit</button>
+                </form>
+            </div>
+        </footer>
+        
+    </body>
+</html>
