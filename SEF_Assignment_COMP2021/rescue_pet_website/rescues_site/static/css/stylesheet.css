@@ -1,0 +1,14 @@
+#connect_container, #our_promises_container, #advertise_container, #eNew_container {
+    width: 25%;
+}
+
+footer {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.nav_bar {
+    display: flex;
+    width: 54.4em;
+    justify-content: space-between;
+}

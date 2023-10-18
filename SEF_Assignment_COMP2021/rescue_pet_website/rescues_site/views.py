@@ -33,3 +33,6 @@ def service(request):
 
 def pet_list(request):
     return render(request, 'rescues_site/pet_list.html')
+
+def admin_user(request):
+    return render(request, 'rescues_site/admin_user.html')

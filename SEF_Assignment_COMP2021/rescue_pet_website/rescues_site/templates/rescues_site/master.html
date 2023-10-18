@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'stylesheet.css' %}">
+        <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}">
         {% block title %}
             {% if title %}
                 <title> Pet Rescuer - {{ title }}</title>
@@ -16,12 +16,17 @@
 
     <body>
         <nav class="nav_bar">
-            <a href="/about_us">About Us</a>
-            <a href="/service">Service</a>
+            <a href="/"><img src="{% static '/images/logo.png' %}" alt="PetResc" style="width: 10%;"></a>
+            <div style="float: inline-end;">
+                <a href="/about_us">About Us</a>
+                <a href="/service">Service</a>
+                <a href="/admin_user">Login</a>
+                <a href="">Sign Up</a>
+            </div>
         </nav>
 
         <div class="container">
-            {% block content %}{% endblock%}
+            {% block content %}{% endblock %}
         </div>
 
         <footer>
@@ -55,6 +60,5 @@
                 </form>
             </div>
         </footer>
-        
     </body>
 </html>
