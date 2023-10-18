@@ -1,0 +1,48 @@
+{% extends "./login.html" %}
+{% block content %}
+<form action="{% url 'sign_up' %}" method="POST">
+    {% csrf_token %}
+    <div class="form-floating">
+        <input type="text" class="form-control" id="floatingInput" name="first_name" placeholder="First Name" required>
+        <label for="floatingInput">First Name</label>
+    </div>
+    <br>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingInput" name="last_name" placeholder="Last Name" required>
+        <label for="floatingInput">Last Name</label>
+    </div>
+    <br>
+    <div class="form-floating">
+        <input type="text" class="form-control" id="floatingInput" name="address" placeholder="Address" required>
+        <label for="floatingInput">Address</label>
+    </div>
+    <br>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingInput" name="suburb" placeholder="Suburb" required>
+        <label for="floatingInput">Suburb</label>
+    </div>
+    <br>
+    <div class="form-floating">
+        <input type="text" class="form-control" id="floatingInput" name="postcode" placeholder="Postcode" required>
+        <label for="floatingInput">Postcode</label>
+    </div>
+    <br>
+    <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="floatingInput" name="email" placeholder="Email" required>
+        <label for="floatingInput">Email</label>
+    </div>
+    <br>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingInput" name="phone_number" placeholder="Phone Number" required>
+        <label for="floatingInput">Phone Number</label>
+    </div>
+    <br>
+    <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
+        <label for="floatingPassword">Password</label>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-outline-secondary">Submit</button>
+    <button type="button" class="btn btn-outline-danger" onclick="location.href = '/'">Cancel</button>
+</form>
+{% endblock %}
