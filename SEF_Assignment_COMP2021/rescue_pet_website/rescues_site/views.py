@@ -36,3 +36,4 @@ def pet_list(request):
 
 def admin_user(request):
     return render(request, 'rescues_site/admin_user.html')
+
