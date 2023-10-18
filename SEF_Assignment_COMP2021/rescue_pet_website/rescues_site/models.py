@@ -2,12 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class CustomUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user_id = models.AutoField(primary_key=True)
     phone_number = models.CharField(max_length=14, null=True)
     address = models.CharField(max_length=255)
     suburb = models.CharField(max_length=255)
     postcode = models.CharField(max_length=10)
     reference = models.CharField(max_length=2500, null=True, blank=True)
+    # is_admin = models.BooleanField(default=False,)
+    date_registered = models.DateTimeField(auto_now_add=True)
 
 class Pet(models.Model):
     pet_id = models.AutoField(primary_key=True)
