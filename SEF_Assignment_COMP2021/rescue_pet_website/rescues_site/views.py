@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.db import transaction
-from .models import CustomUser, User
+from .models import CustomUser, Pet, Application
 
 pets = [
     {
@@ -68,18 +67,18 @@ def sign_up(request):
             print(f"User creation failed: {e}")
             return render(request, 'registration/sign_up.html', {'error': error})
         
-        new_user = CustomUser(
-            address = address,
-            suburb = suburb,
-            postcode = postcode,
-            phone_number = phone_number
-        )
+        # new_user = CustomUser(
+        #     address = address,
+        #     suburb = suburb,
+        #     postcode = postcode,
+        #     phone_number = phone_number
+        # )
         
-        try:
-            new_user.save()
-        except Exception as e:
-            error.append(str(e))
-            print(f"User creation failed: {e}")
-            return render(request, 'registration/sign_up.html', {'error': error})
+        # try:
+        #     new_user.save()
+        # except Exception as e:
+        #     error.append(str(e))
+        #     print(f"User creation failed: {e}")
+        #     return render(request, 'registration/sign_up.html', {'error': error})
         
     return redirect('home_page')

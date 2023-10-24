@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 class CustomUser(models.Model):
     user_id = models.AutoField(primary_key=True)
@@ -8,7 +7,8 @@ class CustomUser(models.Model):
     suburb = models.CharField(max_length=255)
     postcode = models.CharField(max_length=10)
     reference = models.CharField(max_length=2500, null=True, blank=True)
-    # is_admin = models.BooleanField(default=False,)
+    is_admin = models.BooleanField(default=False,)
+    is_staff = models.BooleanField(default=False)
     date_registered = models.DateTimeField(auto_now_add=True)
 
 class Pet(models.Model):
@@ -28,7 +28,7 @@ class Pet(models.Model):
 
 class Application(models.Model):
     application_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
     application_date = models.DateTimeField(auto_now_add=True)
     application_status = models.CharField(max_length=10, choices=[('Pending','Pending'), ('Approve', 'Approve'), ('Decline', 'Decline')])
