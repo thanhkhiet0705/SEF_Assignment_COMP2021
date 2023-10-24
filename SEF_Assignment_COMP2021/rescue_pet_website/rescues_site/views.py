@@ -57,9 +57,13 @@ def sign_up(request):
         password = request.POST.get('password')
 
         try:
-            user = User.objects.create_user(username = email, 
+            user = CustomUser.objects.create(username = email, 
                                              first_name = first_name, 
-                                             last_name = last_name, 
+                                             last_name = last_name,
+                                             address = address,
+                                             suburb = suburb,
+                                             postcode = postcode,
+                                             phone_number = phone_number, 
                                              password = password)
         
         except Exception as e:
@@ -81,4 +85,4 @@ def sign_up(request):
         #     print(f"User creation failed: {e}")
         #     return render(request, 'registration/sign_up.html', {'error': error})
         
-    return redirect('home_page')
+    return redirect('/', {'user': user})
