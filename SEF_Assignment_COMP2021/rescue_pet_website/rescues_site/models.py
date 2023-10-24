@@ -2,6 +2,8 @@ from django.db import models
 
 class CustomUser(models.Model):
     user_id = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=255)
+    email = models.CharField(max_length=255, unique=True)
     phone_number = models.CharField(max_length=14, null=True)
     address = models.CharField(max_length=255)
     suburb = models.CharField(max_length=255)
