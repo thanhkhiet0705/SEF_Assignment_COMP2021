@@ -1,30 +1,23 @@
 from django.shortcuts import render, redirect
 from django.db import transaction
 from .models import CustomUser, Pet, Application
-
-pets = [
-    {
-        'name': 'Bim',
-        'species': 'Dog',
-        'sex': 'Male',
-    },
-    {
-        'name': 'Choco',
-        'species': 'Dog',
-        'sex': 'Female',
-    },
-    {
-        'name': 'Vani',
-        'species': 'Dog',
-        'sex': 'Female',
-    }
-]
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django.contrib.sessions.models import Session
 
 def home(request):
-    context = {
-        'pets': pets
-    }
-    return render(request, 'rescues_site/home_page.html', context)
+    return render(request, 'rescues_site/home_page.html')
+
+# @login_required
+def user_home(request):
+    if request.method == 'POST':
+        username = request.session.get('username')
+        context = {
+            'username': user
+        }
+        return render(request, 'rescues_site/home_page.html', context)
 
 def about_us(request):
     return render(request, 'rescues_site/about_us.html')
@@ -41,9 +34,27 @@ def admin_user(request):
 def registration_form(request):
     return render(request, 'registration/sign_up.html')
 
+def login(request):
+    if request.method == 'GET':
+        return render(request, 'registration/login.html')
+    
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        if username in CustomUser.objects.all() and password in CustomUser.objects.all():
+            user = CustomUser.objects.filter(username = username).values()
+            login(request, user)
+            request.session['username'] = user
+            return redirect('user_home')
+        else:
+            return render(request, 'registration/login.html')
+
 @transaction.atomic
 def sign_up(request):
-
+    if request.method == 'GET':
+        return render(request, 'registration/sign_up.html')
+    
     if request.method == 'POST':
         error = []
 
@@ -54,7 +65,7 @@ def sign_up(request):
         postcode = request.POST.get('postcode')
         email = request.POST.get('email')
         phone_number = request.POST.get('phone_number', None)
-        password = request.POST.get('password')
+        password = make_password(request.POST.get('password'))
 
         try:
             user = CustomUser.objects.create(username = email, 
@@ -65,24 +76,13 @@ def sign_up(request):
                                              postcode = postcode,
                                              phone_number = phone_number, 
                                              password = password)
-        
+            request.session['username'] = user.username
+            return redirect('user_home')
         except Exception as e:
             error.append(str(e))
             print(f"User creation failed: {e}")
             return render(request, 'registration/sign_up.html', {'error': error})
         
-        # new_user = CustomUser(
-        #     address = address,
-        #     suburb = suburb,
-        #     postcode = postcode,
-        #     phone_number = phone_number
-        # )
-        
-        # try:
-        #     new_user.save()
-        # except Exception as e:
-        #     error.append(str(e))
-        #     print(f"User creation failed: {e}")
-        #     return render(request, 'registration/sign_up.html', {'error': error})
-        
-    return redirect('/', {'user': user})
+def logout(request):
+    request.session.clear()
+    return redirect('home')
