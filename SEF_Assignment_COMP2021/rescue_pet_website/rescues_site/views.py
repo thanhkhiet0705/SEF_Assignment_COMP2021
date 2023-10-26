@@ -14,8 +14,9 @@ def home(request):
 def user_home(request):
     if request.method == 'POST':
         username = request.session.get('username')
+        print(username)
         context = {
-            'username': user
+            'username': username
         }
         return render(request, 'rescues_site/home_page.html', context)
 
@@ -41,11 +42,11 @@ def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        
-        if username in CustomUser.objects.all() and password in CustomUser.objects.all():
-            user = CustomUser.objects.filter(username = username).values()
+        user  = authenticate(request, username = username, password = password)
+        if user is not None and user.is_active:
             login(request, user)
-            request.session['username'] = user
+            request.session['username'] = user.username
+            print(request.session['username'])
             return redirect('user_home')
         else:
             return render(request, 'registration/login.html')
