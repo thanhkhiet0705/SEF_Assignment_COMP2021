@@ -1,0 +1,66 @@
+{% extends "./master.html" %}
+{% load static %}
+{% block title %}
+<title>Pet Rescuer - pets</title>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4 mx-auto bg-light" style="width: 1810px;">
+    <form action="{% url 'pets' %}" method="POST">
+        {% csrf_token %}
+        <div class="row g-3 align-items-center">
+            <div class="col-md">
+                <div class="form-floating">
+                   <select class="form-select" id="floatingSelectGrid">
+                        <option value="">Please Choose...</option>
+                        <option value="1">Species</option>
+                        <option value="2">Breed</option>
+                        <option value="3">Gender</option>
+                    </select>
+                    <label for="floatingSelectGrid">Filter</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <input type="email" class="form-control" id="floatingInput" name="pet_searchbar" placeholder="Name, species, breed,...">
+                    <label for="pet_searchbar">Search</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="mx-auto" style="width: 300px;">
+    <p>____________________________________</p>
+</div>
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for pet in pets %}
+      <div class="col">
+          <div class="card h-100">
+              <img src="/static/{{ pet.image_path }}" class="card-img-top" alt="Image of {{ pet.name }}">
+              <div class="card-body">
+                  <h5 class="card-title">{{ pet.name }}</h5>
+                  <p class="card-text">Breed: {{ pet.breed }}</p>
+                  <p class="card-text">Age: {{ pet.age }}</p>
+                  <p class="card-text">Gender: {{ pet.gender }}</p>
+                  <p class="card-text">Location: {{ pet.state }}</p>
+                  <a href="#" class="btn btn-secondary">Detail</a>
+              </div>
+              <div class="card-footer">
+                  <small class="text-muted">{{ pet.status }}</small>
+              </div>
+          </div>
+      </div>
+    {% endfor %}
+    </div>
+</div>
+<div class="mx-auto" style="width: 300px;">
+    <p>____________________________________</p>
+</div>
+{% endblock %}
+    

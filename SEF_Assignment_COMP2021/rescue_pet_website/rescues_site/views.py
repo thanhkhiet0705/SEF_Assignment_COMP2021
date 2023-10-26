@@ -39,6 +39,16 @@ def admin_user(request):
 def registration_form(request):
     return render(request, 'registration/sign_up.html')
 
+def pets(request):
+    if request.method == 'POST':
+        pass
+
+    pets = Pet.objects.all()
+    context = {
+        'pets': pets
+    }
+    return render(request, 'rescues_site/pets.html', context)
+
 def login(request):
     if request.method == 'GET':
         return render(request, 'registration/login.html')
