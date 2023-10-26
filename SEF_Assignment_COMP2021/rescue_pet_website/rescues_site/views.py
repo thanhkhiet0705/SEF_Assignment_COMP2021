@@ -8,7 +8,11 @@ from django.urls import reverse_lazy
 from django.contrib.sessions.models import Session
 
 def home(request):
-    return render(request, 'rescues_site/home_page.html')
+    pets = Pet.objects.all()
+    context = {
+        'pets': pets
+    }
+    return render(request, 'rescues_site/home_page.html', context)
 
 # @login_required
 def user_home(request):

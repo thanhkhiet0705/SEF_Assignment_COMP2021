@@ -1,14 +1,35 @@
 {% extends "./master.html" %}
-
+{% load static %}
 {% block title %}
 <title>Pet Rescuer - Home Page</title>
 {% endblock %}
 
 {% block content %}
     <h1>Home Page</h1>
-    {% for pet in pets%}
+    <!-- {% for pet in pets %}
         <h2> {{ pet.name }} </h2>
         <p><strong>Species: </strong>{{ pet.species }}</p>
-        <p><strong>Sex: </strong>{{ pet.sex }}</p>
-    {% endfor %}
+        <p><strong>Sex: </strong>{{ pet.gender }}</p>
+    {% endfor %} -->
+    <div class="container">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for pet in pets %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="{% static '{{pet.image_path}}' %}" class="card-img-top" alt="Image of {{ pet.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ pet.name }}</h5>
+                    <p class="card-text">Breed: {{ pet.breed }}</p>
+                    <p class="card-text">Age: {{ pet.age }}</p>
+                    <p class="card-text">Gender: {{ pet.gender }}</p>
+                    <p class="card-text">Location: {{ pet.state }}</p>
+                    <a href="#" class="btn btn-primary">Detail</a>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">{{ pet.status }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 {% endblock %}
