@@ -40,54 +40,166 @@ def registration_form(request):
     return render(request, 'registration/sign_up.html')
 
 def pets(request):
+    if request.method == "GET":
+            pets = Pet.objects.all()
+            context = {
+                'pets': pets
+            }
+            return render(request, 'rescues_site/pets.html', context)
+
     if request.method == 'POST':
         selected_type = request.POST.get('selected_type')
-        selected_value = request.POST.get('selected_value')
+        selected_type_value = request.POST.get('selected_type_value')
+        selected_location = request.POST.get('selected_location')
+        selected_location_value = request.POST.get('selected_location_value')
 
-        if selected_type == 'species' and selected_value is not None:
-            pets = Pet.objects.all()
-               
-            context = {
-                'pets': pets.filter(species__contains = selected_value)
-            }
-            return render(request, 'rescues_site/pets.html', context)
-        
-        if selected_type == 'breed' and selected_value is not None:
-            pets = Pet.objects.all()
-               
-            context = {
-                'pets': pets.filter(breed__contains = selected_value)
-            }
-            return render(request, 'rescues_site/pets.html', context)
-        
-        if selected_type == 'gender' and selected_value is not None:
-            pets = Pet.objects.all()
-            male = 'male'
-            female = 'female'
-            if selected_value.lower() == male:
+        ## If the type of pet is None
+        if selected_type == '' and selected_type_value == '':
+            if selected_location == 'state' and selected_location_value is not None:
+                pets = Pet.objects.all()
+                
                 context = {
-                    'pets': pets.filter(gender__contains = selected_value[0]).exclude(gender__contains = female)
+                    'pets': pets.filter(state__contains = selected_location_value)
                 }
                 return render(request, 'rescues_site/pets.html', context)
             
-            if selected_value.lower() == female:
+            elif selected_location == 'suburb' and selected_location_value is not None:
+                pets = Pet.objects.all()
+                
                 context = {
-                    'pets': pets.filter(gender__contains = selected_value[0]).exclude(gender__iexact = male)
+                    'pets': pets.filter(suburb__contains = selected_location_value)
+                }
+                return render(request, 'rescues_site/pets.html', context)
+
+        ## If the location of the pet is None  
+        elif selected_location == '' and selected_location_value == '':
+            if selected_type == 'species' and selected_type_value is not None:
+                pets = Pet.objects.all()
+                
+                context = {
+                    'pets': pets.filter(species__contains = selected_type_value)
                 }
                 return render(request, 'rescues_site/pets.html', context)
             
-        if selected_type == 'age' and selected_value is not None:
-            context = {
-                'pet': Pet.objects.filter(age = selected_value)
-            }
+            elif selected_type == 'breed' and selected_type_value is not None:
+                pets = Pet.objects.all()
+                
+                context = {
+                    'pets': pets.filter(breed__contains = selected_type_value)
+                }
+                return render(request, 'rescues_site/pets.html', context)
+            
+            elif selected_type == 'gender' and selected_type_value is not None:
+                pets = Pet.objects.all()
+                male = 'male'
+                female = 'female'
+                if selected_type_value.lower() == male:
+                    context = {
+                        'pets': pets.filter(gender__contains = selected_type_value[0]).exclude(gender__contains = female)
+                    }
+                    return render(request, 'rescues_site/pets.html', context)
+                
+                if selected_type_value.lower() == female:
+                    context = {
+                        'pets': pets.filter(gender__contains = selected_type_value[0]).exclude(gender__iexact = male)
+                    }
+                    return render(request, 'rescues_site/pets.html', context)
+                
+            elif selected_type == 'age' and selected_type_value is not None:
+                context = {
+                    'pet': Pet.objects.filter(age = selected_type_value)
+                }
 
-            return render(request, 'rescues_site/pets.html', context)
+                return render(request, 'rescues_site/pets.html', context)
+        
+        ## If all of the value is not None
+        elif [selected_type, selected_type_value, selected_location, selected_location_value] is not None:
+            #If the location type is State
+            if selected_location == 'state' and selected_location_value is not None and selected_type == 'species' and selected_type_value is not None:
+                pets = Pet.objects.all()
+                
+                context = {
+                    'pets': pets.filter(state__contains = selected_location_value, species__contains = selected_type_value)
+                }
+                return render(request, 'rescues_site/pets.html', context)
+            
+            elif selected_location == 'state' and selected_location_value is not None and selected_type == 'breed' and selected_type_value is not None:
+                pets = Pet.objects.all()
+                
+                context = {
+                    'pets': pets.filter(state__contains = selected_location_value, breed__contains = selected_type_value)
+                }
+                return render(request, 'rescues_site/pets.html', context)
+            
+            elif selected_location == 'state' and selected_location_value is not None and selected_type == 'gender' and selected_type_value is not None:
+                pets = Pet.objects.all()
+                male = 'male'
+                female = 'female'
+                if selected_type_value.lower() == male:
+                    context = {
+                        'pets': pets.filter(state__contains = selected_location_value, gender__contains = selected_type_value[0]).exclude(gender__contains = female)
+                    }
+                    return render(request, 'rescues_site/pets.html', context)
+                
+                if selected_type_value.lower() == female:
+                    context = {
+                        'pets': pets.filter(state__contains = selected_location_value, gender__contains = selected_type_value[0]).exclude(gender__iexact = male)
+                    }
+                    return render(request, 'rescues_site/pets.html', context)
+                
+            elif selected_location == 'state' and selected_location_value is not None and selected_type == 'age' and selected_type_value is not None:
+                context = {
+                    'pet': Pet.objects.filter(state__contains = selected_location_value, age = selected_type_value)
+                }
 
-    pets = Pet.objects.all()
-    context = {
-        'pets': pets
-    }
-    return render(request, 'rescues_site/pets.html', context)
+                return render(request, 'rescues_site/pets.html', context)
+            
+            # If the location type is Surburb
+            if selected_location == 'suburb' and selected_location_value is not None and selected_type == 'species' and selected_type_value is not None:
+                pets = Pet.objects.all()
+                
+                context = {
+                    'pets': pets.filter(suburb__contains = selected_location_value, species__contains = selected_type_value)
+                }
+                return render(request, 'rescues_site/pets.html', context)
+            
+            elif selected_location == 'suburb' and selected_location_value is not None and selected_type == 'breed' and selected_type_value is not None:
+                pets = Pet.objects.all()
+                
+                context = {
+                    'pets': pets.filter(suburb__contains = selected_location_value, breed__contains = selected_type_value)
+                }
+                return render(request, 'rescues_site/pets.html', context)
+            
+            elif selected_location == 'suburb' and selected_location_value is not None and selected_type == 'gender' and selected_type_value is not None:
+                pets = Pet.objects.all()
+                male = 'male'
+                female = 'female'
+                if selected_type_value.lower() == male:
+                    context = {
+                        'pets': pets.filter(suburb__contains = selected_location_value, gender__contains = selected_type_value[0]).exclude(gender__contains = female)
+                    }
+                    return render(request, 'rescues_site/pets.html', context)
+                
+                if selected_type_value.lower() == female:
+                    context = {
+                        'pets': pets.filter(suburb__contains = selected_location_value, gender__contains = selected_type_value[0]).exclude(gender__iexact = male)
+                    }
+                    return render(request, 'rescues_site/pets.html', context)
+                
+            elif selected_location == 'suburb' and selected_location_value is not None and selected_type == 'age' and selected_type_value is not None:
+                context = {
+                    'pet': Pet.objects.filter(suburb__contains = selected_location_value, age = selected_type_value)
+                }
+
+                return render(request, 'rescues_site/pets.html', context)
+            
+    else:
+        pets = Pet.objects.all()
+        context = {
+            'pets': pets
+        }
+        return render(request, 'rescues_site/pets.html', context)
 
 def login(request):
     if request.method == 'GET':

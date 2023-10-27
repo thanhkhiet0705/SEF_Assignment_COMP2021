@@ -1,7 +1,7 @@
 {% extends "./master.html" %}
 {% load static %}
 {% block title %}
-<title>Pet Rescuer - pets</title>
+<title>Pet Rescuer - Pets</title>
 {% endblock %}
 
 {% block content %}
@@ -12,20 +12,36 @@
         <div class="row g-3 align-items-center">
             <div class="col-md">
                 <div class="form-floating">
+                   <select class="form-select" id="selected_location" name="selected_location">
+                        <option value="">Please choose...</option>
+                        <option value="state">State</option>
+                        <option value="suburb">Suburb</option>
+                    </select>
+                    <label for="selected_location">Location</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating" id="search_bar">
+                    <input type="text" class="form-control" id="selected_location_value" name="selected_location_value" placeholder="">
+                    <label for="selected_location_value">From...</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
                    <select class="form-select" id="selected_type" name="selected_type">
-                        <option value="">Please Choose...</option>
+                        <option value="">Please choose...</option>
                         <option value="species">Species</option>
                         <option value="breed">Breed</option>
                         <option value="gender">Gender</option>
                         <option value="age">Age</option>
                     </select>
-                    <label for="selected_type">Filter</label>
+                    <label for="selected_type">By...</label>
                 </div>
             </div>
             <div class="col-md">
                 <div class="form-floating" id="search_bar">
-                    <input type="text" class="form-control" id="selected_value" name="selected_value" placeholder="Name, species, breed,...">
-                    <label for="selected_value">Search</label>
+                    <input type="text" class="form-control" id="selected_type_value" name="selected_type_value" placeholder="Name, species, breed,...">
+                    <label for="selected_type_value">Search</label>
                 </div>
             </div>
             <div class="col-md">
