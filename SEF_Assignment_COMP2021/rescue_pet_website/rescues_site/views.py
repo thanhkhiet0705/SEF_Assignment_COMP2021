@@ -41,7 +41,47 @@ def registration_form(request):
 
 def pets(request):
     if request.method == 'POST':
-        pass
+        selected_type = request.POST.get('selected_type')
+        selected_value = request.POST.get('selected_value')
+
+        if selected_type == 'species' and selected_value is not None:
+            pets = Pet.objects.all()
+               
+            context = {
+                'pets': pets.filter(species__contains = selected_value)
+            }
+            return render(request, 'rescues_site/pets.html', context)
+        
+        if selected_type == 'breed' and selected_value is not None:
+            pets = Pet.objects.all()
+               
+            context = {
+                'pets': pets.filter(breed__contains = selected_value)
+            }
+            return render(request, 'rescues_site/pets.html', context)
+        
+        if selected_type == 'gender' and selected_value is not None:
+            pets = Pet.objects.all()
+            male = 'male'
+            female = 'female'
+            if selected_value.lower() == male:
+                context = {
+                    'pets': pets.filter(gender__contains = selected_value[0]).exclude(gender__contains = female)
+                }
+                return render(request, 'rescues_site/pets.html', context)
+            
+            if selected_value.lower() == female:
+                context = {
+                    'pets': pets.filter(gender__contains = selected_value[0]).exclude(gender__iexact = male)
+                }
+                return render(request, 'rescues_site/pets.html', context)
+            
+        if selected_type == 'age' and selected_value is not None:
+            context = {
+                'pet': Pet.objects.filter(age = selected_value)
+            }
+
+            return render(request, 'rescues_site/pets.html', context)
 
     pets = Pet.objects.all()
     context = {

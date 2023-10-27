@@ -5,25 +5,27 @@
 {% endblock %}
 
 {% block content %}
-<div class="mb-4 mx-auto bg-light" style="width: 1810px;">
+<div class="mb-4 mx-auto bg-light" style="width: 100%;">
     <form action="{% url 'pets' %}" method="POST">
+        <h3>Filter</h3>
         {% csrf_token %}
         <div class="row g-3 align-items-center">
             <div class="col-md">
                 <div class="form-floating">
-                   <select class="form-select" id="floatingSelectGrid">
+                   <select class="form-select" id="selected_type" name="selected_type">
                         <option value="">Please Choose...</option>
-                        <option value="1">Species</option>
-                        <option value="2">Breed</option>
-                        <option value="3">Gender</option>
+                        <option value="species">Species</option>
+                        <option value="breed">Breed</option>
+                        <option value="gender">Gender</option>
+                        <option value="age">Age</option>
                     </select>
-                    <label for="floatingSelectGrid">Filter</label>
+                    <label for="selected_type">Filter</label>
                 </div>
             </div>
             <div class="col-md">
-                <div class="form-floating">
-                    <input type="email" class="form-control" id="floatingInput" name="pet_searchbar" placeholder="Name, species, breed,...">
-                    <label for="pet_searchbar">Search</label>
+                <div class="form-floating" id="search_bar">
+                    <input type="text" class="form-control" id="selected_value" name="selected_value" placeholder="Name, species, breed,...">
+                    <label for="selected_value">Search</label>
                 </div>
             </div>
             <div class="col-md">
@@ -37,6 +39,7 @@
     <p>____________________________________</p>
 </div>
 
+{% if pets %}
 <div class="container">
     <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for pet in pets %}
@@ -59,6 +62,9 @@
     {% endfor %}
     </div>
 </div>
+{% else %}
+<p class="mx-auto" style="width: 200px;">No matching pets from your filter...</p>
+{% endif %}
 <div class="mx-auto" style="width: 300px;">
     <p>____________________________________</p>
 </div>
