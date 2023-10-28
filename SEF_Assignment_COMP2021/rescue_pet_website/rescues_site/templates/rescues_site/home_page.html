@@ -5,8 +5,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="mx-auto" style="width: 65px;">
-    <h2>Home</h2>
+<div class="mx-auto" style="width: 200px;">
+    {% if user.login %}
+    <h2>Hello, {{ user.first_name}}!</h2>
+    {% else %}
+    <h2>Hello, There!</h2>
+    {% endif %}
   </div>
   <div class="mx-auto" style="width: 300px;">
     <p>____________________________________</p>

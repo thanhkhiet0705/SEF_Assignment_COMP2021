@@ -1,28 +1,29 @@
 from django.shortcuts import render, redirect
 from django.db import transaction
-from .models import CustomUser, Pet, Application
+from django.contrib.auth.models import User
+from .models import UserProfile, Pet, Application
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
 from django.contrib.sessions.models import Session
-
+import sys
+from django.http import HttpResponse
 def home(request):
-    pets = Pet.objects.all()
-    context = {
-        'pets': pets
-    }
-    return render(request, 'rescues_site/home_page.html', context)
-
-# @login_required
-def user_home(request):
-    if request.method == 'POST':
-        username = request.session.get('username')
-        print(username)
+    if request.method == 'GET':
+        pets = Pet.objects.all()
         context = {
-            'username': username
+            'pets': pets
         }
         return render(request, 'rescues_site/home_page.html', context)
+    if request.method == 'POST':
+        user = request.session.get('username')
+        if user.is_authenticated:
+            pets = Pet.objects.all()
+            context = {
+                'pets': pets,
+                'user': user
+            }
+            return render(request, 'rescues_site/home_page.html', context)
 
 def about_us(request):
     return render(request, 'rescues_site/about_us.html')
@@ -39,6 +40,12 @@ def admin_user(request):
 def registration_form(request):
     return render(request, 'registration/sign_up.html')
 
+def pet_detail(request):
+    if request.method == "POST":
+        pet_id = request.POST.get('pet_id')
+        pet = Pet.objects.get(pet_id = pet_id)
+        return render(request, 'rescues_site/pet_detail.html', context={'pet' : pet})
+    
 def pets(request):
     if request.method == "GET":
             pets = Pet.objects.all()
@@ -201,21 +208,17 @@ def pets(request):
         }
         return render(request, 'rescues_site/pets.html', context)
 
+def login_page(request):
+    return render(request, 'registration/login.html')
+
 def login(request):
-    if request.method == 'GET':
-        return render(request, 'registration/login.html')
-    
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user  = authenticate(request, username = username, password = password)
+        user  =  authenticate(username = username, password = password)
         if user is not None and user.is_active:
             login(request, user)
-            request.session['username'] = user.username
-            print(request.session['username'])
-            return redirect('user_home')
-        else:
-            return render(request, 'registration/login.html')
+            return redirect('home')
 
 @transaction.atomic
 def sign_up(request):
@@ -235,20 +238,36 @@ def sign_up(request):
         password = make_password(request.POST.get('password'))
 
         try:
-            user = CustomUser.objects.create(username = email, 
+            user = User.objects.create_user(username = email, 
                                              first_name = first_name, 
                                              last_name = last_name,
-                                             address = address,
-                                             suburb = suburb,
-                                             postcode = postcode,
-                                             phone_number = phone_number, 
                                              password = password)
-            request.session['username'] = user.username
-            return redirect('user_home')
+            
         except Exception as e:
-            error.append(str(e))
-            print(f"User creation failed: {e}")
-            return render(request, 'registration/sign_up.html', {'error': error})
+            pass
+        
+        new_user = UserProfile(address = address,
+                                suburb = suburb,
+                                postcode =postcode,
+                                phone_number = phone_number)
+        
+        try:
+            new_user.save()
+        except:
+            pass
+
+        login(request)
+        return redirect('home')
+        
+def user_home(request):
+    if request.method == 'POST':
+        pets = Pet.objects.all()
+        user = user_session
+        context = {
+            'username': user,
+            'pets': pets
+        }
+        return render(request, 'rescues_site/home_page.html', context)
         
 def logout(request):
     request.session.clear()

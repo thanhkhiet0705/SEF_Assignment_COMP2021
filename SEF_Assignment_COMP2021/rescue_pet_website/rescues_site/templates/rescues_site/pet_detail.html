@@ -1,0 +1,36 @@
+{% extends './master.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="card mb-3" style="max-width: 740px;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="/static/{{ pet.image_path }}" class="img-fluid border border-5 border-dark" alt="Image of {{pet.name}}">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Fun Fact</h5>
+                <p class="card-text">{{ pet.description }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">{{ pet.name }}</h5>
+        <p class="card-text">Species: {{ pet.species }}</p>
+        <p class="card-text">Breed: {{ pet.breed }}</p>
+        <p class="card-text">Age: {{ pet.age }}</p>
+        <p class="card-text">Gender: {{ pet.gender }}</p>
+        <p class="card-text">Location: {{ pet.suburb}}, {{ pet.state }}</p>
+        <p class="card-text">Adopt Fee: ${{ pet.fee }}</p>
+        <div class="card-footer">
+            <small class="text-muted">{{ pet.status }}</small>
+            <a href="/pets" class="btn btn-outline-danger float-end mx-1">Back</a>
+            <button class="btn btn-secondary float-end mx-1">Apply</button>
+        </div>
+  </div>
+{% endblock content %}
+    

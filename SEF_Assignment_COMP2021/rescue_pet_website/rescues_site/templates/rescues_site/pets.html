@@ -68,7 +68,12 @@
                   <p class="card-text">Age: {{ pet.age }}</p>
                   <p class="card-text">Gender: {{ pet.gender }}</p>
                   <p class="card-text">Location: {{ pet.state }}</p>
-                  <a href="#" class="btn btn-secondary">Detail</a>
+                  <form action="{% url 'pet_detail' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary" id="pet_detail" name="pet_id" value="{{ pet.pet_id }}">
+                        Details
+                    </button>
+                  </form>
               </div>
               <div class="card-footer">
                   <small class="text-muted">{{ pet.status }}</small>
