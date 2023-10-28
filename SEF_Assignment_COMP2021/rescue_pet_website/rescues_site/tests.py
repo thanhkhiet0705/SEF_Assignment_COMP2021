@@ -1,6 +1,9 @@
 from django.test import TestCase
-from .models import CustomUser, Pet, Application
+from .models import UserProfile, Pet, Application
+from django.urls import reverse
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
+
 
 ## Model Tests ##
 
@@ -107,7 +110,7 @@ class ModelCustomUserTest(TestCase):
 
     # test user username
     def test_user_username(self):
-        test = CustomUser.objects.get(user_id = 1)
+        test = UserProfile.objects.get(user_id = 1)
         self.assertEqual(test.username, "test name")
 
     # test user email
@@ -229,5 +232,46 @@ class ModelApplicationTest(TestCase):
 # Needs to be updated to the latest model.
 
 ## Views Tests ##
+class ViewsTest(TestCase):
+    def test_login(self):
 
+    def test_login_already_logged_in(self)
+
+    def test_login_page(self)
+
+    def test_sign_up_page(self)
+
+    def test_pet_detail(self)
+
+    def test_home(self)
+
+    def test_about_us(self)
+
+    def test_service(self)
+
+    def test_pet_list(self)
+
+    def test_admin_user(self)
+
+    def test_registration_form(self)
+        
 ## Form Tests ##
+class FormTest(TestCase):
+    def test_valid_form_submission(self):
+        # create form
+        form_data = {
+            'first_name': 'test',
+            'last_name': 'name',
+            'address': 'test address',
+            'suburb': 'test suburb',
+            'postcode': '2727',
+            'email': 'test@test.com',
+            'phone_number': '(02)99999999',
+            'password': make_password('test password')
+        }
+        # submit
+        response = self.client.post(reverse('sign_up'), data=form_data)
+        # test the redirect
+        self.assertEqual(response.status_code, 302)
+        # test the existence of this object
+        self.assertTrue(UserProfile.objects.filter(username='test@test.com').exists())
