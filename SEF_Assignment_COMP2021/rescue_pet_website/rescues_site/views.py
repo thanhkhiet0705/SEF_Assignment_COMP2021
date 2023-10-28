@@ -258,17 +258,7 @@ def sign_up(request):
 
         login(request)
         return redirect('home')
-        
-def user_home(request):
-    if request.method == 'POST':
-        pets = Pet.objects.all()
-        user = user_session
-        context = {
-            'username': user,
-            'pets': pets
-        }
-        return render(request, 'rescues_site/home_page.html', context)
-        
+
 def logout(request):
     request.session.clear()
     return redirect('home')
