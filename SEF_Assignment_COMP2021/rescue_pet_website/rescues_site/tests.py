@@ -1,7 +1,6 @@
 from django.test import TestCase
 from .models import UserProfile, Pet, Application
 from django.urls import reverse
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 
 
@@ -100,98 +99,62 @@ class ModelPetTest(TestCase):
 class ModelCustomUserTest(TestCase):
     # initialise test variable
     def setUp(self):
-        testpassword = make_password("test password")
-        # full field
-        CustomUser.objects.create(username="test name", email="test@gmail.com", first_name="test", last_name="name", phone_number="(02)99999999", address="test address", suburb="test suburb", postcode="2727", password=testpassword, reference="test reference", is_admin=False, is_staff=False)
-        # field missing unrequired values
-        CustomUser.objects.create(username="test name 2", email="test@gmail.com", first_name="test", last_name="name", address="test address", suburb="test suburb", postcode="2727", password=testpassword)
+        UserProfile.objects.create_user(username="test@gmail.com", first_name="test", last_name="name", phone_number="(02)99999999", address="test address", suburb="test suburb", postcode="2727", password="password")
     
     # Field Tests #
 
     # test user username
-    def test_user_username(self):
-        test = UserProfile.objects.get(user_id = 1)
-        self.assertEqual(test.username, "test name")
-
-    # test user email
     def test_user_email(self):
-        test = CustomUser.objects.get(user_id = 1)
-        self.assertEqual(test.email, "test@gmail.com")
+        test = UserProfile.objects.get(username = "test@gmail.com")
+        self.assertEqual(test.username, "test@gmail.com")
     
     # test user first name
     def test_user_first_name(self):
-        test = CustomUser.objects.get(user_id = 1)
+        test = UserProfile.objects.get(username = "test@gmail.com")
         self.assertEqual(test.first_name, "test")
     
     # test user last name
     def test_user_last_name(self):
-        test = CustomUser.objects.get(user_id = 1)
+        test = UserProfile.objects.get(username = "test@gmail.com")
         self.assertEqual(test.last_name, "name")
     
     # test user phone number
     def test_user_phone(self):
-        test = CustomUser.objects.get(user_id = 1)
+        test = UserProfile.objects.get(username = "test@gmail.com")
         self.assertEqual(test.phone_number, "(02)99999999")
     
     # test user address
     def test_user_address(self):
-        test = CustomUser.objects.get(user_id = 1)
+        test = UserProfile.objects.get(username = "test@gmail.com")
         self.assertEqual(test.address, "test address")
 
     # test user suburb
     def test_user_suburb(self):
-        test = CustomUser.objects.get(user_id = 1)
+        test = UserProfile.objects.get(username = "test@gmail.com")
         self.assertEqual(test.suburb, "test suburb")
     
     # test user postcode
     def test_user_postcode(self):
-        test = CustomUser.objects.get(user_id = 1)
+        test = UserProfile.objects.get(username = "test@gmail.com")
         self.assertEqual(test.postcode, "2727")
     
     # test user password
     def test_user_password(self):
-        testpassword = make_password("test password")
-        test = CustomUser.objects.get(user_id = 1)
-        self.assertEqual(test.password, testpassword)
-    
-    # test user reference
-    def test_user_reference(self):
-        test = CustomUser.objects.get(user_id = 1)
-        self.assertEqual(test.reference, "test reference")
-    
-    # test user admin status
-    def test_user_admin(self):
-        test = CustomUser.objects.get(user_id = 1)
-        self.assertEqual(test.is_admin, False)
-    
-    # test user staff status
-    def test_user_staff(self):
-        test = CustomUser.objects.get(user_id = 1)
-        self.assertEqual(test.is_staff, False)
-    
-    # Validator Tests #
-
-    # test user username validator
-    def test_user_username_validator(self):
-        testpassword = make_password("test password")
-        with self.assertRaises(ValidationError):
-            CustomUser.objects.create(username="test name", email="test@gmail.com", first_name="test", last_name="name", phone_number="(02)99999999", address="test address", suburb="test suburb", postcode="2727", password=testpassword, reference="test reference", is_admin=False, is_staff=False)
-            CustomUser.objects.create(username="test name", email="test@gmail.com", first_name="test", last_name="name", phone_number="(02)99999999", address="test address", suburb="test suburb", postcode="2727", password=testpassword, reference="test reference", is_admin=False, is_staff=False)
+        test = UserProfile.objects.get(username = "test@gmail.com")
+        self.assertEqual(test.password, "password")
 
     # test user phone number validator
     def test_user_phone_validator(self):
-        testpassword = make_password("test password")
         with self.assertRaises(ValidationError):
-            CustomUser.objects.create(username="test name", email="test@gmail.com", first_name="test", last_name="name", phone_number="(02)9999999999999999999999999999", address="test address", suburb="test suburb", postcode="2727", password=testpassword, reference="test reference", is_admin=False, is_staff=False)
+            UserProfile.objects.create(username="test@gmail.com", first_name="test", last_name="name", phone_number="(02)9999999999999999999999999999", address="test address", suburb="test suburb", postcode="2727", password="password")
         
     
 # test the application model
 class ModelApplicationTest(TestCase):
     # initialise test variable
     def setUp(self):
-        testpassword = make_password("test password")
         Pet.objects.create(name="Sasha", species="Dog", breed="Border Collie", age=19, gender="Female", description="test desc", image_path="static/images/CattleDog.png", status="Available", suburb="test suburb", state="NSW", fee=5.50)
-        CustomUser.objects.create(username="test name 3", email="test@gmail.com", first_name="test", last_name="name", phone_number="(02)99999999", address="test address", suburb="test suburb", postcode="2727", password=testpassword, reference="test reference", is_admin=True, is_staff=True)
+        UserProfile.objects.create_user(username="test3@gmail.com", first_name="test", last_name="name", phone_number="(02)99999999", address="test address", suburb="test suburb", postcode="2727", password="password")
         Application.objects.create(user=1, pet=1, application_status="Pending", application_note="test note", adoption_date='2023-10-25 19:30:45')
     
     # Field Tests #
@@ -226,7 +189,7 @@ class ModelApplicationTest(TestCase):
     # test application status validator
     def test_app_status_validator(self):
         with self.assertRaises(ValidationError):
-            Application.objects.create(user=1, pet=1, application_status="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", application_note="test note", adoption_date='2023-10-25 19:30:45')
+            Application.objects.create(username="test3@gmail.com", pet=1, application_status="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", application_note="test note", adoption_date='2023-10-25 19:30:45')
 
 # Needs the key validation
 # Needs to be updated to the latest model.
@@ -234,26 +197,49 @@ class ModelApplicationTest(TestCase):
 ## Views Tests ##
 class ViewsTest(TestCase):
     def test_login(self):
+          user = UserProfile.objects.create_user(username="test3@gmail.com", first_name="test", last_name="name", phone_number="(02)99999999", address="test address", suburb="test suburb", postcode="2727", password="password")
+          self.client.login(username='test3@gmail.com', password='password')
+          response = self.client.get(reverse('registration/login.html'))
+          self.assertEqual(response.status_code, 200)
+    def test_login_page(self):
+        response = self.client.get(reverse('login_page'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'registration/login.html')
+        
+    def test_sign_up_page(self):
+        response = self.client.get(reverse('sign_up'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'registration/sign_up.html')
+        
+    def test_pet_detail(self):
+        response = self.client.get(reverse('pet_detail'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'rescues_site/pets.html')
+        
+    def test_home(self):
+        response = self.client.get(reverse(''))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'rescues_site/home.html')
+        
+    def test_about_us(self):
+        response = self.client.get(reverse('about_us'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'rescues_site/about_us.html')
+        
+    def test_service(self):
+        response = self.client.get(reverse('service'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'rescues_site/service.html')
 
-    def test_login_already_logged_in(self)
+    def test_pet_list(self):
+        response = self.client.get(reverse('pet_list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'rescues_site/pet_list.html')
 
-    def test_login_page(self)
-
-    def test_sign_up_page(self)
-
-    def test_pet_detail(self)
-
-    def test_home(self)
-
-    def test_about_us(self)
-
-    def test_service(self)
-
-    def test_pet_list(self)
-
-    def test_admin_user(self)
-
-    def test_registration_form(self)
+    def test_admin_user(self):
+        response = self.client.get(reverse('admin_user'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'rescues_site/admin_user.html')
         
 ## Form Tests ##
 class FormTest(TestCase):
@@ -267,7 +253,7 @@ class FormTest(TestCase):
             'postcode': '2727',
             'email': 'test@test.com',
             'phone_number': '(02)99999999',
-            'password': make_password('test password')
+            'password': 'test password'
         }
         # submit
         response = self.client.post(reverse('sign_up'), data=form_data)
